@@ -14,9 +14,9 @@
 
 FROM golang:1.8-alpine
 
-VOLUME /config
 EXPOSE 6060 6061
 
+ADD config.yaml /
 ADD .   /go/src/github.com/coreos/clair/
 WORKDIR /go/src/github.com/coreos/clair/
 
@@ -25,4 +25,4 @@ RUN apk add --no-cache git bzr rpm xz && \
     mv /go/bin/clair /clair && \
     rm -rf /go /usr/local/go
 
-ENTRYPOINT ["/clair"]
+CMD ["/clair", "-config", "/config.yaml"]
